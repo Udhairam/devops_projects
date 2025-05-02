@@ -1,19 +1,15 @@
 #!/bin/bash
 
 THRESHOLD=80
+ALERT_LOG="/var/log/disk_alerts.log"
 
-# email or log file for alerts (optional)
-ALERT_LOG="/path/to/alert_log.txt"
+# to check disk usage on root (/)
+USAGE=$(df / | awk 'NR==2 {gsub(/%/, "", $5); print $5}')
 
-# get current disk usage percentage for root filesystem
-USAGE=$(df / | grep / | awk '{ print $5 }' | sed 's/%//g')
-
-# check if usage exceeds threshold
 if [ "$USAGE" -gt "$THRESHOLD" ]; then
-  MESSAGE="Warning: Disk usage is at ${USAGE}% on $(hostname)"
-  echo "$MESSAGE" | tee -a "$ALERT_LOG"
+  MESSAGE="WARNING: Root disk usage is at ${USAGE}% on $(hostname)"
+  echo "$MESSAGE"
+  echo "$MESSAGE" >> "$ALERT_LOG"
 else
-  echo "Disk usage is under control: ${USAGE}% used."
+  echo "Disk usage is OK: ${USAGE}% used."
 fi
-
-echo "Disk usage check completed."  
