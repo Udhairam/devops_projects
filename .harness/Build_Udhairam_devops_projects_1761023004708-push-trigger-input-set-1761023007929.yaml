@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_Udhairam_devops_projects_1761023004708-push-trigger-input-set
+  identifier: Build_Udhairam_devops_projects_1761023004708pushtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: ampledev
+  pipeline:
+    identifier: Build_Udhairam_devops_projects_1761023004708
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: <+trigger.branch>
