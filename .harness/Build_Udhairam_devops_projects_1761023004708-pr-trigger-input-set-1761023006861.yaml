@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_Udhairam_devops_projects_1761023004708-pr-trigger-input-set
+  identifier: Build_Udhairam_devops_projects_1761023004708prtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: ampledev
+  pipeline:
+    identifier: Build_Udhairam_devops_projects_1761023004708
+    properties:
+      ci:
+        codebase:
+          build:
+            type: PR
+            spec:
+              number: <+trigger.prNumber>
