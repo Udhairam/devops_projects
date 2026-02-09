@@ -1,4 +1,5 @@
 terraform {
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -17,7 +18,8 @@ variable "aws_region" {
 }
 
 variable "bucket_name" {
-  type = string
+  type        = string
+  description = "S3 bucket name (must be globally unique)"
 }
 
 resource "aws_s3_bucket" "demo" {
