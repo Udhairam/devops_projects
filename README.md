@@ -1,1 +1,1 @@
-This is DevOps project is not just for the practice purposes. Also for my betterment. 
+This is DevOps project is not just for the practice purposes. No offense!
