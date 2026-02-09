@@ -1,1 +1,1 @@
-This is DevOps project is not just for the practice purposes. Also to enchance our hands-on skills from a beginner to advanced.
+This is DevOps project is not just for the practice purposes. Also for my betterment. 
