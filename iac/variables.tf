@@ -25,3 +25,14 @@ variable "allow_ssh_cidr" {
   description = "CIDR range allowed to SSH into instances (default is open)"
   default     = "0.0.0.0/0"
 }
+
+variable "instance_type" {
+  type        = string
+  description = "EC2 instance type"
+  default     = "t3.micro"
+}
+
+variable "key_name" {
+  type        = string
+  description = "Name of an existing EC2 key pair for SSH access"
+}

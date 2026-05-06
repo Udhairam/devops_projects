@@ -79,3 +79,46 @@ resource "aws_security_group" "web_sg" {
 resource "aws_s3_bucket" "sample" {
   bucket = var.bucket_name
 }
+
+# --- EC2 ---
+
+data "aws_ami" "amazon_linux_2023" {
+  most_recent = true
+  owners      = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["al2023-ami-*-x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+
+resource "aws_instance" "web" {
+  ami                    = data.aws_ami.amazon_linux_2023.id
+  instance_type          = var.instance_type
+  subnet_id              = aws_subnet.public.id
+  vpc_security_group_ids = [aws_security_group.web_sg.id]
+  key_name               = var.key_name
+
+  root_block_device {
+    volume_size           = 20
+    volume_type           = "gp3"
+    delete_on_termination = true
+  }
+
+  user_data = <<-EOF
+    #!/bin/bash
+    dnf update -y
+    dnf install -y httpd
+    systemctl enable --now httpd
+    echo "<h1>Hello from $(hostname)</h1>" > /var/www/html/index.html
+  EOF
+
+  tags = {
+    Name = "web-server"
+  }
+}
