@@ -4,3 +4,4 @@ iac/terraform.tfstate
 iac/terraform.tfstate.backup
 .terraform.lock.hcl
 iac/.terraform.lock.hcl
+daily-log/
