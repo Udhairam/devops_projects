@@ -1,12 +1,29 @@
+# --- General ---
+
 variable "aws_region" {
-  type    = string
-  default = "us-east-1"
+  type        = string
+  description = "AWS region to deploy into"
+  default     = "us-east-1"
 }
 
-variable "bucket_name" {
+variable "project_name" {
   type        = string
-  description = "S3 bucket name (must be globally unique)"
+  description = "Short project identifier used in resource names"
+  default     = "devops"
 }
+
+variable "environment" {
+  type        = string
+  description = "Deployment environment (dev / staging / prod)"
+  default     = "dev"
+
+  validation {
+    condition     = contains(["dev", "staging", "prod"], var.environment)
+    error_message = "environment must be one of: dev, staging, prod."
+  }
+}
+
+# --- Networking ---
 
 variable "vpc_cidr" {
   type        = string
@@ -14,25 +31,49 @@ variable "vpc_cidr" {
   default     = "10.0.0.0/16"
 }
 
-variable "public_subnet_cidr" {
-  type        = string
-  description = "CIDR block for the public subnet"
-  default     = "10.0.1.0/24"
-}
-
-variable "allow_ssh_cidr" {
-  type        = string
-  description = "CIDR range allowed to SSH into instances (default is open)"
-  default     = "0.0.0.0/0"
-}
+# --- Compute ---
 
 variable "instance_type" {
   type        = string
-  description = "EC2 instance type"
+  description = "EC2 instance type for the web ASG"
   default     = "t3.micro"
 }
 
-variable "key_name" {
+variable "asg_min" {
+  type        = number
+  description = "Minimum number of instances in the ASG"
+  default     = 1
+}
+
+variable "asg_desired" {
+  type        = number
+  description = "Desired number of instances in the ASG"
+  default     = 1
+}
+
+variable "asg_max" {
+  type        = number
+  description = "Maximum number of instances in the ASG"
+  default     = 3
+}
+
+# --- Storage ---
+
+variable "bucket_name" {
   type        = string
-  description = "Name of an existing EC2 key pair for SSH access"
+  description = "S3 bucket name for application data (must be globally unique)"
+}
+
+# --- Monitoring ---
+
+variable "cpu_scale_out_threshold" {
+  type        = number
+  description = "CPU % above which the ASG scales out"
+  default     = 75
+}
+
+variable "cpu_scale_in_threshold" {
+  type        = number
+  description = "CPU % below which the ASG scales in"
+  default     = 25
 }
