@@ -77,3 +77,20 @@ output "log_group_name" {
   description = "CloudWatch log group for EC2 application logs"
   value       = aws_cloudwatch_log_group.web.name
 }
+
+# --- Secrets ---
+
+output "app_secret_arn" {
+  description = "ARN of the app secret in Secrets Manager"
+  value       = aws_secretsmanager_secret.app.arn
+}
+
+output "app_secret_name" {
+  description = "Name of the app secret — use this in aws secretsmanager get-secret-value"
+  value       = aws_secretsmanager_secret.app.name
+}
+
+output "secrets_kms_key_arn" {
+  description = "ARN of the KMS key used to encrypt secrets"
+  value       = aws_kms_key.secrets.arn
+}
